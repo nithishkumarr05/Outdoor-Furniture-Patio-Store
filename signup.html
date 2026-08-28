@@ -1,0 +1,528 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>PatioHaven | Sign Up — Outdoor Furniture</title>
+    <link rel="icon" href="#" type="image/png">
+    <meta name="description" content="Create your PatioHaven account to save favorite items, track orders, and get exclusive outdoor furniture offers.">
+
+    <!-- Tailwind + Fonts + Icons -->
+       <script src="tailwind.js"></script>
+<link rel="icon" href="assests/fav.png" type="image/jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'patio-primary': '#2F4F3A',
+                        'patio-secondary': '#C49A6C',
+                        'patio-accent': '#D4A373',
+                        'patio-warm': '#F5EDE3',
+                        'patio-dark': '#1a1a1a',
+                        'patio-light': '#FAF7F2',
+                        'patio-coral': '#E8847A',
+                        'patio-sage': '#8BA888',
+                        'patio-terracotta': '#C97B5A',
+                        'patio-mint': '#A8C4B8',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Prevent scrolling */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: #FAF7F2;
+            transition: background-color 0.3s;
+        }
+        .dark html, .dark body {
+            background: #1a1a1a;
+        }
+
+        .floating-particle {
+            position: fixed;
+            font-size: 2.4rem;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes floatY {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-24px); }
+        }
+        .animate-float {
+            animation: floatY 6s ease-in-out infinite;
+        }
+
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn-shine:hover::after {
+            left: 100%;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .dark .glass-card {
+            background: rgba(30, 30, 30, 0.6);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .dark .fa-sun {
+            display: inline-block !important;
+        }
+        .dark .fa-moon {
+            display: none !important;
+        }
+        .fa-moon {
+            display: inline-block;
+        }
+        .fa-sun {
+            display: none;
+        }
+
+        [dir="rtl"] .rtl\:right-auto {
+            right: auto;
+        }
+        [dir="rtl"] .rtl\:left-0 {
+            left: 0;
+        }
+
+        input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 30px #f9f9f9 inset !important;
+        }
+        .dark input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 30px #0a0a0a inset !important;
+            -webkit-text-fill-color: #e5e5e5 !important;
+        }
+
+        /* Fixed center container */
+        .signup-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: radial-gradient(circle at 30% 40%, rgba(196,154,108,0.08) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 60%, rgba(232,132,122,0.06) 0%, transparent 55%);
+        }
+        .dark .signup-container {
+            background: radial-gradient(circle at 30% 40%, rgba(196,154,108,0.12) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 60%, rgba(232,132,122,0.08) 0%, transparent 55%);
+        }
+
+        /* Signup card - fixed height */
+        .signup-card {
+            width: 100%;
+            max-width: 460px;
+            max-height: 92vh;
+            border-radius: 2rem;
+            padding: 1.75rem 1.5rem;
+            overflow-y: auto;
+        }
+        .signup-card::-webkit-scrollbar {
+            width: 3px;
+        }
+        .signup-card::-webkit-scrollbar-thumb {
+            background: #C49A6C;
+            border-radius: 10px;
+        }
+        .signup-card {
+            scrollbar-width: thin;
+            scrollbar-color: #C49A6C transparent;
+        }
+
+        @media (max-width: 400px) {
+            .signup-card {
+                padding: 1.25rem 1rem;
+                max-height: 95vh;
+                border-radius: 1.5rem;
+            }
+        }
+
+        @media (max-height: 700px) and (max-width: 400px) {
+            .signup-card {
+                padding: 1rem 0.75rem;
+            }
+            .signup-card .text-2xl {
+                font-size: 1.25rem !important;
+            }
+            .signup-card .social-login-btn {
+                height: 2rem !important;
+            }
+            .signup-card input {
+                padding: 0.4rem 0.6rem !important;
+                font-size: 0.7rem !important;
+            }
+            .signup-card button[type="submit"] {
+                padding: 0.4rem !important;
+                font-size: 0.7rem !important;
+                height: 2.25rem !important;
+            }
+            .signup-card .form-label {
+                font-size: 0.55rem !important;
+            }
+            .signup-card .text-center.mb-5 {
+                margin-bottom: 0.25rem !important;
+            }
+            .signup-card .mb-4 {
+                margin-bottom: 0.25rem !important;
+            }
+            .signup-card .mt-5 {
+                margin-top: 0.25rem !important;
+            }
+            .signup-card .space-y-3\\.5 {
+                gap: 0.5rem !important;
+            }
+        }
+
+        @media (max-height: 800px) and (min-width: 401px) {
+            .signup-card {
+                padding: 1.25rem 1.5rem;
+            }
+            .signup-card .space-y-3\\.5 {
+                gap: 0.5rem !important;
+            }
+            .signup-card .text-center.mb-5 {
+                margin-bottom: 0.5rem !important;
+            }
+            .signup-card .mb-4 {
+                margin-bottom: 0.25rem !important;
+            }
+        }
+
+        @keyframes toastFade {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+        }
+        .toast-animation {
+            animation: toastFade 2.5s ease forwards;
+        }
+
+        [dir="rtl"] .me-2 {
+            margin-left: 0.5rem;
+            margin-right: 0;
+        }
+        [dir="rtl"] .ms-2 {
+            margin-right: 0.5rem;
+            margin-left: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating particles -->
+    <div class="floating-particle left-[5%] top-[15%] animate-float">🌿</div>
+    <div class="floating-particle right-[8%] top-[25%] animate-float" style="animation-delay: 2s;">🪑</div>
+    <div class="floating-particle left-[10%] bottom-[20%] animate-float" style="animation-delay: 4s;">☀️</div>
+    <div class="floating-particle right-[12%] bottom-[30%] animate-float" style="animation-delay: 3s;">🌴</div>
+
+    <!-- Top Controls (RTL / Theme) -->
+    <div class="fixed top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-3 z-50">
+        <button id="rtl-toggle"
+            class="w-10 h-10 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md shadow-sm border border-patio-secondary/40 flex items-center justify-center text-patio-dark dark:text-white hover:text-patio-secondary hover:border-patio-secondary transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-patio-secondary active:scale-95">
+            <i class="fas fa-exchange-alt text-xs"></i>
+        </button>
+        <button id="theme-toggle"
+            class="w-10 h-10 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md shadow-sm border border-patio-secondary/40 flex items-center justify-center text-patio-dark dark:text-white hover:text-patio-secondary hover:border-patio-secondary transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-patio-secondary active:scale-95">
+            <i class="fas fa-moon text-sm"></i>
+            <i class="fas fa-sun hidden text-sm"></i>
+        </button>
+    </div>
+
+    <!-- Sign Up Container -->
+    <div class="signup-container">
+        <div class="signup-card glass-card shadow-2xl border border-gray-200/50 dark:border-white/10">
+            
+            <!-- Brand Logo -->
+            <div class="text-center mb-4">
+                <a href="index.html" class="inline-flex items-center gap-2 mb-2 select-none group">
+                    <i class="fas fa-tree text-2xl text-patio-secondary group-hover:scale-110 transition-transform"></i>
+                    <span class="text-2xl font-serif font-bold text-patio-secondary tracking-wide">PatioHaven</span>
+                </a>
+                <h2 class="text-xl sm:text-2xl font-serif font-bold text-patio-dark dark:text-white mb-0.5">Create Account</h2>
+                <p class="text-xs text-gray-500 dark:text-gray-400 font-light">Join PatioHaven and transform your outdoor space</p>
+            </div>
+
+            <!-- Social Sign Up -->
+            <div class="flex justify-center gap-3 mb-3">
+                <button class="social-login-btn flex-1 h-9 bg-gray-50 dark:bg-white/5 rounded-xl border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-patio-secondary/10 dark:hover:bg-patio-secondary/20 transition-all duration-300 focus:ring-2 focus:ring-patio-secondary focus:outline-none group active:scale-95">
+                    <i class="fab fa-google text-[#DB4437] text-sm group-hover:scale-105 transition-transform"></i>
+                </button>
+                <button class="social-login-btn flex-1 h-9 bg-gray-50 dark:bg-white/5 rounded-xl border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-patio-secondary/10 dark:hover:bg-patio-secondary/20 transition-all duration-300 focus:ring-2 focus:ring-patio-secondary focus:outline-none group active:scale-95">
+                    <i class="fab fa-facebook-f text-[#1877F2] text-sm group-hover:scale-105 transition-transform"></i>
+                </button>
+                <button class="social-login-btn flex-1 h-9 bg-gray-50 dark:bg-white/5 rounded-xl border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-patio-secondary/10 dark:hover:bg-patio-secondary/20 transition-all duration-300 focus:ring-2 focus:ring-patio-secondary focus:outline-none group active:scale-95">
+                    <i class="fab fa-apple text-gray-900 dark:text-white text-base group-hover:scale-105 transition-transform"></i>
+                </button>
+            </div>
+
+            <!-- Divider -->
+            <div class="relative flex items-center justify-center my-3">
+                <div class="w-full border-t border-gray-200 dark:border-white/10"></div>
+                <div class="absolute bg-white dark:bg-patio-dark px-3 text-[9px] font-bold text-gray-400 tracking-widest uppercase">
+                    Or sign up with email
+                </div>
+            </div>
+
+            <!-- Sign Up Form -->
+            <form id="signupForm" class="space-y-2.5">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-0.5">
+                        <i class="fas fa-user me-1.5 text-patio-secondary"></i> Full Name
+                    </label>
+                    <input type="text" id="signupName" placeholder="John Doe"
+                        class="w-full px-3 py-1.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-patio-secondary dark:text-white transition-all"
+                        required>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-0.5">
+                        <i class="fas fa-envelope me-1.5 text-patio-secondary"></i> Email Address
+                    </label>
+                    <input type="email" id="signupEmail" placeholder="hello@patiohaven.com"
+                        class="w-full px-3 py-1.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-patio-secondary dark:text-white transition-all"
+                        required>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-0.5">
+                        <i class="fas fa-phone me-1.5 text-patio-secondary"></i> Phone Number
+                    </label>
+                    <input type="tel" id="signupPhone" placeholder="(888) 555-0123"
+                        class="w-full px-3 py-1.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-patio-secondary dark:text-white transition-all">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-0.5">
+                        <i class="fas fa-lock me-1.5 text-patio-secondary"></i> Password
+                    </label>
+                    <div class="relative">
+                        <input type="password" id="signupPassword" placeholder="••••••••"
+                            class="w-full px-3 py-1.5 pe-9 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-patio-secondary dark:text-white transition-all"
+                            required>
+                        <button type="button" id="togglePasswordBtn"
+                            class="absolute inset-y-0 right-0 pe-3 flex items-center text-gray-400 hover:text-patio-secondary transition-colors focus:outline-none ltr:right-0 rtl:left-0 rtl:right-auto rtl:ps-3 rtl:pe-0">
+                            <i class="fas fa-eye-slash text-xs" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300">
+                    <input type="checkbox" id="termsCheckbox"
+                        class="w-3 h-3 rounded border-gray-300 text-patio-secondary focus:ring-patio-secondary cursor-pointer bg-transparent"
+                        required>
+                    <label for="termsCheckbox" class="cursor-pointer text-[10px]">
+                        I agree to the <a href="#" class="text-patio-secondary hover:underline">Terms</a> &amp; <a href="#" class="text-patio-secondary hover:underline">Privacy</a>
+                    </label>
+                </div>
+
+                <button type="submit"
+                    class="btn-shine w-full h-9 bg-gradient-to-r from-patio-secondary to-patio-terracotta hover:from-patio-primary hover:to-patio-secondary text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl group focus:outline-none focus:ring-2 focus:ring-patio-secondary active:scale-[0.98]">
+                    <i class="fas fa-user-plus text-xs transform group-hover:scale-110 transition-transform"></i>
+                    Create Account
+                </button>
+            </form>
+
+            <!-- Login Link -->
+            <div class="mt-3 text-center">
+                <p class="text-[11px] font-medium text-gray-500 dark:text-gray-400">
+                    Already have an account?
+                    <a href="login.html" class="font-bold text-patio-secondary hover:text-patio-primary transition-colors ml-1">Log In →</a>
+                </p>
+            </div>
+
+            <!-- Footer Note -->
+            <p class="text-center text-[9px] text-gray-400 dark:text-gray-500 mt-2.5">
+                <i class="fas fa-shield-alt mr-1 text-patio-secondary"></i> Secure sign up • Protected by encryption
+            </p>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none w-auto max-w-[90vw]"></div>
+
+    <script>
+        (function() {
+            // Toast function
+            function showToast(message, type = 'success') {
+                const container = document.getElementById('toastContainer');
+                if (!container) return;
+                const toast = document.createElement('div');
+                let bgColor = 'bg-emerald-600';
+                let icon = '<i class="fas fa-check-circle text-white text-sm"></i>';
+                if (type === 'error') { bgColor = 'bg-red-500';
+                    icon = '<i class="fas fa-times-circle text-white text-sm"></i>'; } else if (type === 'warning') { bgColor =
+                        'bg-amber-500';
+                    icon = '<i class="fas fa-exclamation-triangle text-white text-sm"></i>'; } else if (type === 'info') { bgColor =
+                        'bg-patio-secondary';
+                    icon = '<i class="fas fa-info-circle text-white text-sm"></i>'; }
+                toast.className =
+                    `toast-animation mb-2 px-5 py-3 rounded-xl shadow-lg text-xs sm:text-sm font-medium flex items-center gap-2 pointer-events-auto ${bgColor} text-white max-w-full`;
+                toast.innerHTML = `${icon} <span class="break-words">${message}</span>`;
+                container.appendChild(toast);
+                setTimeout(() => { if (toast && toast.remove) toast.remove(); }, 2600);
+            }
+
+            // Password toggle
+            const toggleBtn = document.getElementById('togglePasswordBtn');
+            const passwordInput = document.getElementById('signupPassword');
+            const toggleIcon = document.getElementById('toggleIcon');
+            if (toggleBtn && passwordInput) {
+                toggleBtn.addEventListener('click', () => {
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        toggleIcon.classList.remove('fa-eye-slash');
+                        toggleIcon.classList.add('fa-eye');
+                    } else {
+                        passwordInput.type = 'password';
+                        toggleIcon.classList.remove('fa-eye');
+                        toggleIcon.classList.add('fa-eye-slash');
+                    }
+                });
+            }
+
+            // Theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            const htmlTag = document.documentElement;
+
+            function updateThemeIcons() {
+                const isDark = htmlTag.classList.contains('dark');
+                const sunIcon = document.querySelector('#theme-toggle .fa-sun');
+                const moonIcon = document.querySelector('#theme-toggle .fa-moon');
+                if (sunIcon && moonIcon) {
+                    if (isDark) {
+                        sunIcon.classList.remove('hidden');
+                        moonIcon.classList.add('hidden');
+                    } else {
+                        sunIcon.classList.add('hidden');
+                        moonIcon.classList.remove('hidden');
+                    }
+                }
+            }
+
+            function toggleTheme() {
+                if (htmlTag.classList.contains('dark')) {
+                    htmlTag.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                    showToast('Light mode activated ☀️', 'info');
+                } else {
+                    htmlTag.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                    showToast('Dark mode activated 🌙', 'info');
+                }
+                updateThemeIcons();
+            }
+            if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+
+            // Initialize theme
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia(
+                    'prefers-color-scheme: dark').matches)) {
+                htmlTag.classList.add('dark');
+            } else {
+                htmlTag.classList.remove('dark');
+            }
+            updateThemeIcons();
+
+            // RTL Toggle
+            const rtlToggle = document.getElementById('rtl-toggle');
+
+            function applyRTLStyles(isRtl) {
+                if (isRtl) {
+                    htmlTag.setAttribute('dir', 'rtl');
+                    localStorage.setItem('direction', 'rtl');
+                } else {
+                    htmlTag.removeAttribute('dir');
+                    localStorage.setItem('direction', 'ltr');
+                }
+            }
+
+            function toggleRTL() {
+                const currentDir = htmlTag.getAttribute('dir');
+                if (currentDir === 'rtl') {
+                    applyRTLStyles(false);
+                    showToast('LTR layout activated', 'info');
+                } else {
+                    applyRTLStyles(true);
+                    showToast('RTL layout for right-to-left languages', 'info');
+                }
+            }
+            if (rtlToggle) rtlToggle.addEventListener('click', toggleRTL);
+            if (localStorage.getItem('direction') === 'rtl') {
+                htmlTag.setAttribute('dir', 'rtl');
+            } else if (localStorage.getItem('direction') === 'ltr') {
+                htmlTag.removeAttribute('dir');
+            }
+
+            const signupForm = document.getElementById('signupForm');
+            if (signupForm) {
+                signupForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('signupName').value.trim();
+                    const email = document.getElementById('signupEmail').value.trim();
+                    const password = document.getElementById('signupPassword').value;
+                    const termsChecked = document.getElementById('termsCheckbox').checked;
+
+                    if (!name) { showToast('Please enter your full name', 'warning'); return; }
+                    if (!email) { showToast('Please enter your email address', 'warning'); return; }
+                    if (!email.includes('@') || !email.includes('.')) { showToast(
+                            'Please enter a valid email address', 'error'); return; }
+                    if (!password) { showToast('Please enter a password', 'warning'); return; }
+                    if (password.length < 6) { showToast('Password must be at least 6 characters', 'warning'); return; }
+                    if (!termsChecked) { showToast('Please agree to the Terms of Service', 'warning'); return; }
+
+                    showToast(`🏡 Welcome to PatioHaven, ${name}! Your outdoor journey begins now.`, 'success');
+                });
+            }
+
+            // Social sign up demo
+            document.querySelectorAll('.social-login-btn').forEach(btn => {
+                btn.addEventListener('click', () => { showToast(
+                        'Social signup demo — integrate your auth provider', 'info'); });
+            });
+        })();
+    </script>
+</body>
+
+</html>

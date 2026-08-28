@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes, viewport-fit=cover">
+  <title>PatioHaven | Login — Outdoor Furniture</title>
+  <link rel="icon" href="#" type="image/png">
+  <meta name="description" content="Login to your PatioHaven account to manage orders, track deliveries, and save your favorite outdoor furniture.">
+
+  <!-- Tailwind + Fonts + Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'patio-primary': '#2F4F3A',
+            'patio-secondary': '#C49A6C',
+            'patio-accent': '#D4A373',
+            'patio-warm': '#F5EDE3',
+            'patio-dark': '#1a1a1a',
+            'patio-light': '#FAF7F2',
+            'patio-coral': '#E8847A',
+            'patio-sage': '#8BA888',
+            'patio-terracotta': '#C97B5A',
+            'patio-mint': '#A8C4B8',
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      transition: background-color 0.3s, color 0.3s;
+      overflow: hidden;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #FAF7F2;
+    }
+    .dark body {
+      background: #1a1a1a;
+    }
+
+    /* floating particles – subtle, non-intrusive */
+    .floating-particle {
+      position: fixed;
+      font-size: 2rem;
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+      user-select: none;
+    }
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-18px); }
+    }
+    .animate-float {
+      animation: floatY 7s ease-in-out infinite;
+    }
+
+    /* glass card – clean, no overflow scroll */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      transition: all 0.2s ease;
+      width: 100%;
+      max-width: 420px;
+      padding: 2rem 1.75rem;
+      border-radius: 2.5rem;
+      margin: 1rem;
+    }
+    .dark .glass-card {
+      background: rgba(30, 30, 30, 0.7);
+      border-color: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    }
+
+    /* no scroll – card content fits viewport naturally */
+    .login-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100vh;
+      padding: 1rem;
+      background: radial-gradient(circle at 30% 40%, rgba(196,154,108,0.08) 0%, transparent 60%),
+                  radial-gradient(circle at 70% 60%, rgba(232,132,122,0.05) 0%, transparent 55%);
+    }
+    .dark .login-container {
+      background: radial-gradient(circle at 30% 40%, rgba(196,154,108,0.12) 0%, transparent 60%),
+                  radial-gradient(circle at 70% 60%, rgba(232,132,122,0.07) 0%, transparent 55%);
+    }
+
+    /* ensure no scroll on small devices */
+    @media (max-height: 700px) {
+      .glass-card {
+        padding: 1.5rem 1.25rem;
+      }
+      .glass-card .text-2xl {
+        font-size: 1.3rem !important;
+      }
+      .glass-card .social-login-btn {
+        height: 2.2rem;
+      }
+      .glass-card input {
+        padding-top: 0.4rem !important;
+        padding-bottom: 0.4rem !important;
+        font-size: 0.75rem !important;
+      }
+      .glass-card button[type="submit"] {
+        height: 2.4rem;
+        font-size: 0.75rem;
+      }
+      .glass-card .mb-6 {
+        margin-bottom: 0.5rem !important;
+      }
+      .glass-card .my-4 {
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
+      }
+      .glass-card .mt-5 {
+        margin-top: 0.75rem !important;
+      }
+      .glass-card .mt-4 {
+        margin-top: 0.5rem !important;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .glass-card {
+        padding: 1.25rem 1rem;
+        border-radius: 2rem;
+      }
+      .glass-card .flex-wrap {
+        gap: 0.25rem;
+      }
+    }
+
+    /* toggle icons – dark mode */
+    .dark .fa-sun {
+      display: inline-block !important;
+    }
+    .dark .fa-moon {
+      display: none !important;
+    }
+    .fa-moon {
+      display: inline-block;
+    }
+    .fa-sun {
+      display: none;
+    }
+
+    /* rtl fine-tuning */
+    [dir="rtl"] .rtl\:right-auto {
+      right: auto;
+    }
+    [dir="rtl"] .rtl\:left-0 {
+      left: 0;
+    }
+    [dir="rtl"] .me-2 {
+      margin-left: 0.5rem;
+      margin-right: 0;
+    }
+    [dir="rtl"] .ms-2 {
+      margin-right: 0.5rem;
+      margin-left: 0;
+    }
+    [dir="rtl"] .ltr\:right-0 {
+      right: auto !important;
+      left: 0;
+    }
+    [dir="rtl"] .rtl\:pe-0 {
+      padding-right: 0 !important;
+      padding-left: 0.75rem !important;
+    }
+    [dir="rtl"] .rtl\:ps-3 {
+      padding-left: 0 !important;
+      padding-right: 0.75rem !important;
+    }
+
+    /* autofill */
+    input:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 30px #f9f9f9 inset !important;
+    }
+    .dark input:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 30px #0a0a0a inset !important;
+      -webkit-text-fill-color: #e5e5e5 !important;
+    }
+
+    /* toast */
+    @keyframes toastFade {
+      0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    }
+    .toast-animation {
+      animation: toastFade 2.5s ease forwards;
+    }
+
+    .btn-shine {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .btn-shine::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      transition: left 0.6s ease;
+    }
+    .btn-shine:hover::after {
+      left: 100%;
+    }
+  </style>
+</head>
+<body class="bg-patio-light dark:bg-patio-dark">
+
+  <!-- Floating particles – purely decorative -->
+  <div class="floating-particle left-[5%] top-[15%] animate-float">🌿</div>
+  <div class="floating-particle right-[8%] top-[25%] animate-float" style="animation-delay: 2s;">🪑</div>
+  <div class="floating-particle left-[10%] bottom-[20%] animate-float" style="animation-delay: 4s;">☀️</div>
+  <div class="floating-particle right-[12%] bottom-[30%] animate-float" style="animation-delay: 3s;">🌴</div>
+
+  <!-- Top Controls (RTL / Theme) – fixed, no scroll -->
+  <div class="fixed top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-3 z-50">
+    <button id="rtl-toggle" 
+      class="w-10 h-10 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md shadow-sm border border-patio-secondary/40 flex items-center justify-center text-patio-dark dark:text-white hover:text-patio-secondary hover:border-patio-secondary transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-patio-secondary active:scale-95">
+      <i class="fas fa-exchange-alt text-xs"></i>
+    </button>
+    <button id="theme-toggle" 
+      class="w-10 h-10 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md shadow-sm border border-patio-secondary/40 flex items-center justify-center text-patio-dark dark:text-white hover:text-patio-secondary hover:border-patio-secondary transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-patio-secondary active:scale-95">
+      <i class="fas fa-moon text-sm"></i>
+      <i class="fas fa-sun hidden text-sm"></i>
+    </button>
+  </div>
+
+  <!-- Login Container – no scroll, fully responsive -->
+  <div class="login-container">
+    <div class="glass-card">
+
+      <!-- Brand Logo -->
+      <div class="text-center mb-4 sm:mb-5">
+        <a href="#" class="inline-flex items-center gap-2 mb-2 select-none group">
+          <i class="fas fa-tree text-2xl text-patio-secondary group-hover:scale-110 transition-transform"></i>
+          <span class="text-2xl font-serif font-bold text-patio-secondary tracking-wide">PatioHaven</span>
+        </a>
+        <h2 class="text-xl sm:text-2xl font-serif font-bold text-patio-dark dark:text-white mb-0.5">Welcome Back</h2>
+        <p class="text-xs text-gray-500 dark:text-gray-400 font-light">Sign in to your PatioHaven account</p>
+      </div>
+
+      <!-- Social Login -->
+      <div class="flex justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+        <button class="social-login-btn flex-1 h-9 sm:h-10 bg-gray-50 dark:bg-white/5 rounded-xl border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-patio-secondary/10 dark:hover:bg-patio-secondary/20 transition-all duration-300 focus:ring-2 focus:ring-patio-secondary focus:outline-none group active:scale-95">
+          <i class="fab fa-google text-[#DB4437] text-sm group-hover:scale-105 transition-transform"></i>
+        </button>
+        <button class="social-login-btn flex-1 h-9 sm:h-10 bg-gray-50 dark:bg-white/5 rounded-xl border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-patio-secondary/10 dark:hover:bg-patio-secondary/20 transition-all duration-300 focus:ring-2 focus:ring-patio-secondary focus:outline-none group active:scale-95">
+          <i class="fab fa-facebook-f text-[#1877F2] text-sm group-hover:scale-105 transition-transform"></i>
+        </button>
+        <button class="social-login-btn flex-1 h-9 sm:h-10 bg-gray-50 dark:bg-white/5 rounded-xl border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-patio-secondary/10 dark:hover:bg-patio-secondary/20 transition-all duration-300 focus:ring-2 focus:ring-patio-secondary focus:outline-none group active:scale-95">
+          <i class="fab fa-apple text-gray-900 dark:text-white text-base group-hover:scale-105 transition-transform"></i>
+        </button>
+      </div>
+
+      <!-- Divider -->
+      <div class="relative flex items-center justify-center my-3 sm:my-4">
+        <div class="w-full border-t border-gray-200 dark:border-white/10"></div>
+        <div class="absolute bg-white dark:bg-patio-dark px-3 text-[9px] font-bold text-gray-400 tracking-widest uppercase">
+          Or login with email
+        </div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="space-y-3 sm:space-y-4">
+        <div>
+          <label class="block text-[10px] sm:text-[11px] font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-1">
+            <i class="fas fa-envelope me-1.5 text-patio-secondary"></i> Email Address
+          </label>
+          <input type="email" id="loginEmail" placeholder="hello@patiohaven.com" 
+            class="w-full px-3 py-1.5 sm:py-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-patio-secondary dark:text-white transition-all">
+        </div>
+
+        <div>
+          <label class="block text-[10px] sm:text-[11px] font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-1">
+            <i class="fas fa-lock me-1.5 text-patio-secondary"></i> Password
+          </label>
+          <div class="relative">
+            <input type="password" id="loginPassword" placeholder="••••••••" 
+              class="w-full px-3 py-1.5 sm:py-2 pe-9 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-patio-secondary dark:text-white transition-all">
+            <button type="button" id="togglePasswordBtn" 
+              class="absolute inset-y-0 right-0 pe-3 flex items-center text-gray-400 hover:text-patio-secondary transition-colors focus:outline-none ltr:right-0 rtl:left-0 rtl:right-auto rtl:ps-3 rtl:pe-0">
+              <i class="fas fa-eye-slash text-xs" id="toggleIcon"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-0.5 flex-wrap gap-1 sm:gap-2">
+          <label class="flex items-center cursor-pointer group">
+            <input type="checkbox" id="rememberCheckbox" 
+              class="w-3.5 h-3.5 rounded border-gray-300 text-patio-secondary focus:ring-patio-secondary cursor-pointer bg-transparent">
+            <span class="ms-2 text-[11px] sm:text-xs font-medium text-gray-500 dark:text-gray-400 group-hover:text-patio-dark dark:group-hover:text-white transition-colors">Remember me</span>
+          </label>
+          <a href="#" id="forgotPasswordLink" 
+            class="text-[10px] sm:text-xs font-bold text-patio-dark dark:text-gray-300 uppercase tracking-wide hover:text-patio-secondary dark:hover:text-patio-secondary transition-colors">Forgot Password</a>
+        </div>
+
+        <button type="submit" 
+          class="btn-shine w-full mt-1 h-9 sm:h-10 bg-gradient-to-r from-patio-secondary to-patio-terracotta hover:from-patio-primary hover:to-patio-secondary text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl group focus:outline-none focus:ring-2 focus:ring-patio-secondary active:scale-[0.98]">
+          <i class="fas fa-tree text-xs transform group-hover:scale-110 transition-transform"></i>
+          Sign In
+        </button>
+      </form>
+
+      <!-- Sign Up Link -->
+      <div class="mt-4 sm:mt-5 text-center">
+        <p class="text-xs font-medium text-gray-500 dark:text-gray-400">
+          New to PatioHaven?
+          <a href="#" class="font-bold text-patio-secondary hover:text-patio-primary transition-colors ml-1">Create an account →</a>
+        </p>
+      </div>
+
+      <!-- Footer Note -->
+      <p class="text-center text-[10px] text-gray-400 dark:text-gray-500 mt-3 sm:mt-4">
+        <i class="fas fa-shield-alt mr-1 text-patio-secondary"></i> Secure login • Protected by encryption
+      </p>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none w-auto max-w-[90vw]"></div>
+
+  <script>
+    (function() {
+      // Toast
+      function showToast(message, type = 'success') {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const toast = document.createElement('div');
+        let bgColor = 'bg-emerald-600';
+        let icon = '<i class="fas fa-check-circle text-white text-sm"></i>';
+        if (type === 'error') { bgColor = 'bg-red-500'; icon = '<i class="fas fa-times-circle text-white text-sm"></i>'; }
+        else if (type === 'warning') { bgColor = 'bg-amber-500'; icon = '<i class="fas fa-exclamation-triangle text-white text-sm"></i>'; }
+        else if (type === 'info') { bgColor = 'bg-patio-secondary'; icon = '<i class="fas fa-info-circle text-white text-sm"></i>'; }
+        toast.className = `toast-animation mb-2 px-5 py-3 rounded-xl shadow-lg text-xs sm:text-sm font-medium flex items-center gap-2 pointer-events-auto ${bgColor} text-white max-w-full`;
+        toast.innerHTML = `${icon} <span class="break-words">${message}</span>`;
+        container.appendChild(toast);
+        setTimeout(() => { if (toast && toast.remove) toast.remove(); }, 2600);
+      }
+
+      // Password toggle
+      const toggleBtn = document.getElementById('togglePasswordBtn');
+      const passwordInput = document.getElementById('loginPassword');
+      const toggleIcon = document.getElementById('toggleIcon');
+      if (toggleBtn && passwordInput) {
+        toggleBtn.addEventListener('click', () => {
+          if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+          } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+          }
+        });
+      }
+
+      // Theme toggle
+      const themeToggle = document.getElementById('theme-toggle');
+      const htmlTag = document.documentElement;
+
+      function updateThemeIcons() {
+        const isDark = htmlTag.classList.contains('dark');
+        const sunIcon = document.querySelector('#theme-toggle .fa-sun');
+        const moonIcon = document.querySelector('#theme-toggle .fa-moon');
+        if (sunIcon && moonIcon) {
+          if (isDark) {
+            sunIcon.classList.remove('hidden');
+            moonIcon.classList.add('hidden');
+          } else {
+            sunIcon.classList.add('hidden');
+            moonIcon.classList.remove('hidden');
+          }
+        }
+      }
+
+      function toggleTheme() {
+        if (htmlTag.classList.contains('dark')) {
+          htmlTag.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+          showToast('Light mode activated ☀️', 'info');
+        } else {
+          htmlTag.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+          showToast('Dark mode activated 🌙', 'info');
+        }
+        updateThemeIcons();
+      }
+      if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+
+      // Init theme
+      if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('prefers-color-scheme: dark').matches)) {
+        htmlTag.classList.add('dark');
+      } else {
+        htmlTag.classList.remove('dark');
+      }
+      updateThemeIcons();
+
+      // RTL Toggle
+      const rtlToggle = document.getElementById('rtl-toggle');
+
+      function applyRTLStyles(isRtl) {
+        if (isRtl) {
+          htmlTag.setAttribute('dir', 'rtl');
+          localStorage.setItem('direction', 'rtl');
+        } else {
+          htmlTag.removeAttribute('dir');
+          localStorage.setItem('direction', 'ltr');
+        }
+      }
+
+      function toggleRTL() {
+        const currentDir = htmlTag.getAttribute('dir');
+        if (currentDir === 'rtl') {
+          applyRTLStyles(false);
+          showToast('LTR layout activated', 'info');
+        } else {
+          applyRTLStyles(true);
+          showToast('RTL layout for right-to-left languages', 'info');
+        }
+      }
+      if (rtlToggle) rtlToggle.addEventListener('click', toggleRTL);
+      if (localStorage.getItem('direction') === 'rtl') {
+        htmlTag.setAttribute('dir', 'rtl');
+      } else if (localStorage.getItem('direction') === 'ltr') {
+        htmlTag.removeAttribute('dir');
+      }
+
+      // Remember me
+      const savedEmail = localStorage.getItem('savedEmail');
+      const rememberCheckbox = document.getElementById('rememberCheckbox');
+      const emailInput = document.getElementById('loginEmail');
+      if (savedEmail && emailInput) {
+        emailInput.value = savedEmail;
+        if (rememberCheckbox) rememberCheckbox.checked = true;
+      }
+
+      // Login form
+      const loginForm = document.getElementById('loginForm');
+      if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const email = document.getElementById('loginEmail').value.trim();
+          const password = document.getElementById('loginPassword').value;
+          if (!email) { showToast('Please enter your email address', 'warning'); return; }
+          if (!password) { showToast('Please enter your password', 'warning'); return; }
+          if (!email.includes('@') || !email.includes('.')) { showToast('Please enter a valid email address', 'error'); return; }
+
+          if (rememberCheckbox && rememberCheckbox.checked) {
+            localStorage.setItem('savedEmail', email);
+          } else {
+            localStorage.removeItem('savedEmail');
+          }
+          const userName = email.split('@')[0];
+          showToast(`🏡 Welcome back, ${userName}! Your outdoor oasis awaits.`, 'success');
+        });
+      }
+
+      // Social login demo
+      document.querySelectorAll('.social-login-btn').forEach(btn => {
+        btn.addEventListener('click', () => { showToast('Social login demo — integrate your auth provider', 'info'); });
+      });
+
+      // Forgot password
+      const forgotLink = document.getElementById('forgotPasswordLink');
+      if (forgotLink) {
+        forgotLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          showToast('Password reset link will be sent to your email', 'info');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

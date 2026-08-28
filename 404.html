@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>404 - Page Not Found | PatioHaven</title>
+    <link rel="icon" href="#" type="image/png">
+    <meta name="description" content="Page not found. The page you are looking for doesn't exist or has been moved.">
+
+    <!-- Tailwind + Fonts -->
+       <script src="tailwind.js"></script>
+<link rel="icon" href="assests/fav.png" type="image/jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'patio-primary': '#2F4F3A',
+                        'patio-secondary': '#C49A6C',
+                        'patio-accent': '#D4A373',
+                        'patio-warm': '#F5EDE3',
+                        'patio-dark': '#1a1a1a',
+                        'patio-light': '#FAF7F2',
+                        'patio-coral': '#E8847A',
+                        'patio-sage': '#8BA888',
+                        'patio-terracotta': '#C97B5A',
+                        'patio-mint': '#A8C4B8',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Prevent scrolling */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: #FAF7F2;
+            transition: background-color 0.3s;
+        }
+        .dark html, .dark body {
+            background: #1a1a1a;
+        }
+
+        .floating-particle {
+            position: fixed;
+            font-size: 2.4rem;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes floatY {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-24px); }
+        }
+        .animate-float {
+            animation: floatY 6s ease-in-out infinite;
+        }
+
+        @keyframes floatSpin {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .float-spin {
+            animation: floatSpin 8s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 0.6; transform: scale(1); }
+        }
+        .pulse-glow {
+            animation: pulseGlow 2.5s ease-in-out infinite;
+        }
+
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn-shine:hover::after {
+            left: 100%;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .dark .glass-card {
+            background: rgba(30, 30, 30, 0.6);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .dark .fa-sun {
+            display: inline-block !important;
+        }
+        .dark .fa-moon {
+            display: none !important;
+        }
+        .fa-moon {
+            display: inline-block;
+        }
+        .fa-sun {
+            display: none;
+        }
+
+        [dir="rtl"] .rtl\:rotate-180 {
+            transform: rotate(180deg);
+        }
+        [dir="rtl"] .rtl\:right-auto {
+            right: auto;
+        }
+        [dir="rtl"] .rtl\:left-0 {
+            left: 0;
+        }
+
+        .error-code {
+            font-size: 8rem;
+            line-height: 1;
+            font-weight: 900;
+            background: linear-gradient(135deg, #C49A6C, #2F4F3A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        @media (min-width: 768px) {
+            .error-code {
+                font-size: 12rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .error-code {
+                font-size: 16rem;
+            }
+        }
+        .dark .error-code {
+            background: linear-gradient(135deg, #C49A6C, #D4A373);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .error-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: radial-gradient(circle at 30% 40%, rgba(196,154,108,0.08) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 60%, rgba(232,132,122,0.06) 0%, transparent 55%);
+        }
+        .dark .error-container {
+            background: radial-gradient(circle at 30% 40%, rgba(196,154,108,0.12) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 60%, rgba(232,132,122,0.08) 0%, transparent 55%);
+        }
+
+        .error-card {
+            width: 100%;
+            max-width: 560px;
+            max-height: 92vh;
+            overflow-y: auto;
+            border-radius: 2rem;
+            padding: 2.5rem 2rem;
+        }
+        .error-card::-webkit-scrollbar {
+            width: 3px;
+        }
+        .error-card::-webkit-scrollbar-thumb {
+            background: #C49A6C;
+            border-radius: 10px;
+        }
+        .error-card {
+            scrollbar-width: thin;
+            scrollbar-color: #C49A6C transparent;
+        }
+
+        @media (max-width: 400px) {
+            .error-card {
+                padding: 1.5rem 1rem;
+                max-height: 95vh;
+                border-radius: 1.5rem;
+            }
+            .error-code {
+                font-size: 5rem !important;
+            }
+        }
+
+        @media (max-height: 700px) and (max-width: 400px) {
+            .error-card {
+                padding: 1rem 0.75rem;
+            }
+            .error-code {
+                font-size: 4rem !important;
+            }
+            .error-card .w-24 {
+                width: 4rem !important;
+                height: 4rem !important;
+                font-size: 2rem !important;
+            }
+            .error-card .text-3xl {
+                font-size: 1.25rem !important;
+            }
+            .error-card .text-base {
+                font-size: 0.8rem !important;
+            }
+            .error-card .btn-shine {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.7rem !important;
+            }
+            .error-card .mt-8 {
+                margin-top: 0.5rem !important;
+            }
+            .error-card .mt-6 {
+                margin-top: 0.25rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating particles -->
+    <div class="floating-particle left-[5%] top-[15%] animate-float">🌿</div>
+    <div class="floating-particle right-[8%] top-[25%] animate-float" style="animation-delay: 2s;">🪑</div>
+    <div class="floating-particle left-[10%] bottom-[20%] animate-float" style="animation-delay: 4s;">☀️</div>
+    <div class="floating-particle right-[12%] bottom-[30%] animate-float" style="animation-delay: 3s;">🌴</div>
+
+    <!-- Top Controls (RTL / Theme) - Minimal -->
+    <div class="fixed top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-3 z-50">
+        <button id="rtl-toggle"
+            class="w-10 h-10 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md shadow-sm border border-patio-secondary/40 flex items-center justify-center text-patio-dark dark:text-white hover:text-patio-secondary hover:border-patio-secondary transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-patio-secondary active:scale-95">
+            <i class="fas fa-exchange-alt text-xs"></i>
+        </button>
+        <button id="theme-toggle"
+            class="w-10 h-10 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md shadow-sm border border-patio-secondary/40 flex items-center justify-center text-patio-dark dark:text-white hover:text-patio-secondary hover:border-patio-secondary transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-patio-secondary active:scale-95">
+            <i class="fas fa-moon text-sm"></i>
+            <i class="fas fa-sun hidden text-sm"></i>
+        </button>
+    </div>
+
+    <!-- 404 Error Container -->
+    <div class="error-container">
+        <div class="error-card glass-card shadow-2xl border border-gray-200/50 dark:border-white/10 text-center">
+
+            <!-- 404 Error Code -->
+            <div class="error-code pulse-glow">404</div>
+
+            <!-- Icon -->
+            <div class="flex justify-center mb-4 float-spin">
+                <div class="w-24 h-24 rounded-full bg-patio-secondary/10 dark:bg-patio-secondary/20 flex items-center justify-center text-5xl text-patio-secondary">
+                    <i class="fas fa-tree"></i>
+                </div>
+            </div>
+
+            <!-- Message -->
+            <h1 class="text-2xl sm:text-3xl font-serif font-bold text-gray-900 dark:text-white mb-2">
+                Oops! Page Not Found
+            </h1>
+            
+
+       
+         
+
+    <!-- ========== SCRIPTS ========== -->
+    <script>
+        (function() {
+            // Theme Toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            const htmlTag = document.documentElement;
+
+            function updateThemeIcons() {
+                const isDark = htmlTag.classList.contains('dark');
+                const sunIcon = document.querySelector('#theme-toggle .fa-sun');
+                const moonIcon = document.querySelector('#theme-toggle .fa-moon');
+                if (sunIcon && moonIcon) {
+                    if (isDark) {
+                        sunIcon.classList.remove('hidden');
+                        moonIcon.classList.add('hidden');
+                    } else {
+                        sunIcon.classList.add('hidden');
+                        moonIcon.classList.remove('hidden');
+                    }
+                }
+            }
+
+            function toggleTheme() {
+                if (htmlTag.classList.contains('dark')) {
+                    htmlTag.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    htmlTag.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+                updateThemeIcons();
+            }
+
+            if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+
+            // Initialize theme
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('prefers-color-scheme: dark').matches)) {
+                htmlTag.classList.add('dark');
+            } else {
+                htmlTag.classList.remove('dark');
+            }
+            updateThemeIcons();
+
+            // RTL Toggle
+            const rtlToggle = document.getElementById('rtl-toggle');
+
+            function toggleRTL() {
+                if (htmlTag.getAttribute('dir') === 'rtl') {
+                    htmlTag.removeAttribute('dir');
+                    localStorage.setItem('direction', 'ltr');
+                } else {
+                    htmlTag.setAttribute('dir', 'rtl');
+                    localStorage.setItem('direction', 'rtl');
+                }
+            }
+
+            if (rtlToggle) rtlToggle.addEventListener('click', toggleRTL);
+            if (localStorage.getItem('direction') === 'rtl') {
+                htmlTag.setAttribute('dir', 'rtl');
+            }
+        })();
+    </script>
+</body>
+
+</html>

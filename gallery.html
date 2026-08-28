@@ -1,0 +1,775 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>PatioHaven | Gallery — Outdoor Furniture Inspiration</title>
+    <link rel="icon" href="#" type="image/png">
+    <meta name="description" content="Explore our gallery of beautiful outdoor spaces. Get inspired by stunning patio designs, garden furniture arrangements, and outdoor living ideas.">
+
+       <script src="tailwind.js"></script>
+<link rel="icon" href="assests/fav.png" type="image/jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'patio-primary': '#2F4F3A',
+                        'patio-secondary': '#C49A6C',
+                        'patio-accent': '#D4A373',
+                        'patio-warm': '#F5EDE3',
+                        'patio-dark': '#1a1a1a',
+                        'patio-light': '#FAF7F2',
+                        'patio-coral': '#E8847A',
+                        'patio-sage': '#8BA888',
+                        'patio-terracotta': '#C97B5A',
+                        'patio-mint': '#A8C4B8',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        .floating-particle {
+            position: fixed;
+            font-size: 2.4rem;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes floatY {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-24px); }
+        }
+        .animate-float {
+            animation: floatY 6s ease-in-out infinite;
+        }
+
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn-shine:hover::after {
+            left: 100%;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .dark .glass-card {
+            background: rgba(30, 30, 30, 0.6);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+        .gallery-item img {
+            transition: transform 0.6s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+        .gallery-item .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+        .gallery-item .overlay h4 {
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+        .gallery-item .overlay p {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.85rem;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #C49A6C;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: #C49A6C;
+        }
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .dark .fa-sun {
+            display: inline-block !important;
+        }
+        .dark .fa-moon {
+            display: none !important;
+        }
+        .fa-moon {
+            display: inline-block;
+        }
+        .fa-sun {
+            display: none;
+        }
+
+        [dir="rtl"] .rtl\:rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.8s ease forwards;
+        }
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .img-hover-zoom {
+            overflow: hidden;
+        }
+        .img-hover-zoom img {
+            transition: transform 0.6s ease;
+        }
+        .img-hover-zoom:hover img {
+            transform: scale(1.05);
+        }
+
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-auto-rows: 250px;
+            gap: 1.5rem;
+            grid-auto-flow: dense;
+        }
+        .masonry-grid .tall {
+            grid-row: span 2;
+        }
+        .masonry-grid .wide {
+            grid-column: span 2;
+        }
+        @media (max-width: 640px) {
+            .masonry-grid .wide {
+                grid-column: span 1;
+            }
+            .masonry-grid .tall {
+                grid-row: span 1;
+            }
+        }
+
+        .filter-btn {
+            transition: all 0.3s ease;
+            padding: 0.5rem 1.25rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .filter-btn:hover {
+            transform: translateY(-2px);
+        }
+        .filter-btn.active {
+            background: #C49A6C;
+            color: white;
+            border-color: #C49A6C;
+        }
+        .filter-btn:not(.active) {
+            background: transparent;
+            color: #4a5568;
+            border-color: #e2e8f0;
+        }
+        .dark .filter-btn:not(.active) {
+            color: #cbd5e1;
+            border-color: #334155;
+        }
+        .filter-btn:not(.active):hover {
+            border-color: #C49A6C;
+            color: #C49A6C;
+        }
+    </style>
+</head>
+
+<body class="bg-patio-light dark:bg-patio-dark text-gray-800 dark:text-gray-100 font-sans antialiased">
+
+    <div class="floating-particle left-[5%] top-[15%] animate-float">🌿</div>
+    <div class="floating-particle right-[8%] top-[25%] animate-float" style="animation-delay: 2s;">📸</div>
+    <div class="floating-particle left-[10%] bottom-[20%] animate-float" style="animation-delay: 4s;">☀️</div>
+    <div class="floating-particle right-[12%] bottom-[30%] animate-float" style="animation-delay: 3s;">🪴</div>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full top-0 z-50 bg-white/95 dark:bg-patio-dark/95 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="flex items-center gap-2 group">
+                        <i class="fas fa-tree text-2xl text-patio-secondary group-hover:scale-110 transition-transform"></i>
+                        <span class="text-2xl font-serif font-bold text-patio-secondary">PatioHaven</span>
+                    </a>
+                </div>
+
+                <div class="hidden xl:flex items-center justify-center flex-1 mx-6">
+                    <div class="flex items-center gap-4">
+                        <div class="relative group">
+                            <a href="index.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2 inline-flex items-center gap-1">
+                                Home <i class="fas fa-chevron-down text-[10px]"></i>
+                            </a>
+                            <div class="absolute top-full left-0 mt-2 w-36 bg-white dark:bg-patio-dark border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+                                <a href="index.html" class="block px-4 py-3 text-sm hover:bg-patio-secondary/10 transition-colors">Home 1</a>
+                                <a href="home2.html" class="block px-4 py-3 text-sm hover:bg-patio-secondary/10 transition-colors border-t border-gray-100 dark:border-gray-800">Home 2</a>
+                            </div>
+                        </div>
+                        <a href="about.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">About</a>
+                        <a href="services.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">Services</a>
+                        <a href="collection.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">Collection</a>
+                        <a href="customization.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">Customization</a>
+                        <a href="gallery.html" class="nav-link active text-patio-secondary font-medium text-sm py-2">Gallery</a>
+                        <a href="guide.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">Guide</a>
+                        <a href="visit.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">Visit</a>
+                        <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">Contact</a>
+                    </div>
+                </div>
+
+                <div class="hidden xl:flex items-center gap-3">
+                    <button id="themeToggle" class="w-9 h-9 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-patio-secondary/10 transition">
+                        <i class="fas fa-moon text-patio-secondary text-sm"></i>
+                    </button>
+                    <button id="rtlToggle" class="w-9 h-9 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-patio-secondary/10 transition">
+                        <i class="fas fa-exchange-alt text-patio-secondary text-sm"></i>
+                    </button>
+                    <a href="login.html" class="flex items-center gap-2 border border-patio-secondary text-patio-secondary hover:bg-patio-secondary hover:text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition shadow-sm hover:shadow-md"><i class="fas fa-user-circle text-sm"></i> Login</a>
+                    <a href="signup.html" class="flex items-center gap-2 bg-patio-secondary hover:bg-patio-primary text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition shadow-md hover:shadow-lg">
+                        <i class="fas fa-user-plus text-sm"></i> Sign Up
+                    </a>
+                </div>
+
+                <div class="xl:hidden flex items-center gap-3">
+                    <button id="mobile-menu-button" class="text-gray-700 dark:text-gray-200 p-2 focus:outline-none">
+                        <i id="menu-icon" class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden xl:hidden bg-white dark:bg-patio-dark backdrop-blur-md border-t border-gray-200/50 dark:border-gray-800/50 absolute w-full shadow-xl z-50 overflow-y-auto" style="top:64px; max-height:calc(100vh - 64px);">
+            <div class="px-5 py-4 pb-6 space-y-1">
+                <div class="w-full">
+                    <button id="mobile-home-dropdown-btn" class="w-full flex justify-between items-center px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">
+                        <span>Home</span> <i id="mobile-home-icon" class="fas fa-chevron-down text-[10px] transition-transform duration-300"></i>
+                    </button>
+                    <div id="mobile-home-submenu" class="hidden pl-6 space-y-1 mt-1">
+                        <a href="index.html" class="block px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm">Home 1</a>
+                        <a href="home2.html" class="block px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm">Home 2</a>
+                    </div>
+                </div>
+                <a href="about.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">About</a>
+                <a href="services.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Services</a>
+                <a href="collection.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Collection</a>
+                <a href="customization.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Customization</a>
+                <a href="gallery.html" class="block px-4 py-2.5 text-patio-secondary bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Gallery</a>
+                <a href="guide.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Guide</a>
+                <a href="visit.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Visit</a>
+                <a href="contact.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Contact</a>
+                <div class="pt-4 mt-3 border-t border-gray-200/50 dark:border-gray-800/50">
+                    <div class="grid grid-cols-2 gap-3 mb-3">
+                        <button id="mobileThemeToggle" class="bg-patio-secondary/10 px-4 py-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-2"><i class="fas fa-moon"></i> Dark/Light</button>
+                        <button id="mobileRtlToggle" class="bg-patio-secondary/10 px-4 py-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-2"><i class="fas fa-exchange-alt"></i> RTL</button>
+                    </div>
+                    <a href="login.html" class="flex items-center justify-center gap-2 bg-patio-primary text-white text-center px-4 py-3 rounded-lg text-sm font-semibold uppercase"><i class="fas fa-user-circle"></i> Login</a>
+                    <a href="signup.html" class="flex items-center justify-center gap-2 mt-2 bg-patio-secondary text-white text-center px-4 py-3 rounded-lg text-sm font-semibold uppercase"><i class="fas fa-user-plus"></i> Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== SECTION 1: HERO ========== -->
+    <section class="relative min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden bg-gradient-to-br from-patio-warm/75 via-patio-light to-patio-secondary/20 dark:from-patio-dark dark:via-gray-900 dark:to-patio-primary/20">
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-patio-terracotta/20 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-[500px] h-[500px] bg-patio-secondary/20 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+        <div class="absolute top-[35%] right-[10%] w-[400px] h-[400px] bg-patio-coral/15 rounded-full blur-3xl opacity-40 pointer-events-none"></div>
+        
+        <div class="relative z-10 w-full max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="animate-fade-up opacity-0" style="animation-delay: 0.1s;">
+                    <div class="inline-flex items-center gap-3 mb-6 bg-white/80 dark:bg-gray-800/80 px-4 py-2 rounded-full shadow-sm border border-patio-secondary/20 backdrop-blur-sm">
+                        <span class="w-2 h-2 rounded-full bg-patio-secondary pulse-glow"></span>
+                        <span class="text-gray-800 dark:text-gray-200 text-xs uppercase tracking-[0.2em] font-bold bg-gradient-to-r from-patio-secondary to-patio-coral bg-clip-text text-transparent">Outdoor Living Inspiration</span>
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-gray-900 dark:text-white leading-[1.1] mb-6">
+                        Outdoor Living <span class="text-transparent bg-clip-text bg-gradient-to-r from-patio-secondary via-patio-coral to-patio-terracotta">Gallery</span>
+                    </h1>
+                    
+                    <p class="text-gray-600 dark:text-gray-300 text-lg mb-8 leading-relaxed">
+                        Explore stunning outdoor spaces styled with PatioHaven furniture. Get inspired for your own backyard, balcony, or garden transformation.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                        <a href="#gallery" class="btn-shine bg-gradient-to-r from-patio-secondary to-patio-terracotta hover:from-patio-primary hover:to-patio-secondary text-white px-8 py-4 rounded-full text-sm font-bold transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                            View Gallery <i class="fas fa-camera"></i>
+                        </a>
+                        <a href="contact.html" class="glass-card text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 px-8 py-4 rounded-full text-sm font-bold transition text-center flex items-center justify-center gap-2 border border-patio-secondary/30">
+                            <i class="fas fa-paper-plane text-patio-secondary"></i> Submit Your Space
+                        </a>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4 pt-4 border-t border-gray-200/50 dark:border-gray-800/50">
+                        <div class="flex items-center gap-2 bg-white/50 dark:bg-gray-800/50 px-4 py-2 rounded-full backdrop-blur-sm">
+                            <i class="fas fa-home text-patio-secondary text-lg"></i>
+                            <span class="text-xs font-semibold text-gray-700 dark:text-gray-300">Real Homes</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white/50 dark:bg-gray-800/50 px-4 py-2 rounded-full backdrop-blur-sm">
+                            <i class="fas fa-lightbulb text-patio-sage text-lg"></i>
+                            <span class="text-xs font-semibold text-gray-700 dark:text-gray-300">Design Ideas</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white/50 dark:bg-gray-800/50 px-4 py-2 rounded-full backdrop-blur-sm">
+                            <i class="fas fa-images text-patio-coral text-lg"></i>
+                            <span class="text-xs font-semibold text-gray-700 dark:text-gray-300">Premium Curation</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative img-hover-zoom rounded-3xl shadow-2xl">
+                    <img src="assests/gallery1.jpg" alt="Outdoor Space Inspiration" class="w-full h-[400px] lg:h-[450px] object-cover rounded-3xl border border-white/20 dark:border-gray-800/50">
+                    <div class="absolute -bottom-4 -right-4 bg-white dark:bg-patio-dark rounded-2xl shadow-xl p-4 flex items-center gap-3 border border-patio-secondary/20">
+                        <i class="fas fa-image text-patio-secondary text-xl pulse-glow"></i>
+                        <div>
+                            <div class="text-sm font-bold">Design Inspiration</div>
+                            <div class="text-[10px] text-gray-500">Curated Spaces & Layouts</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 2: FILTER + MASONRY GALLERY ========== -->
+    <section id="gallery" class="py-20 lg:py-28 bg-white/50 dark:bg-gray-900/50">
+        <div class="max-w-7xl mx-auto px-5">
+            <div class="text-center mb-10">
+                <span class="section-badge bg-gradient-to-r from-patio-secondary/20 to-patio-coral/20 text-patio-secondary">Gallery</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 dark:text-white mt-3">Featured Spaces</h2>
+                <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mt-3 text-sm">Browse our collection of inspiring outdoor spaces</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="seating">Seating</button>
+                <button class="filter-btn" data-filter="dining">Dining</button>
+                <button class="filter-btn" data-filter="lounge">Lounge</button>
+                <button class="filter-btn" data-filter="fire">Fire &amp; Heat</button>
+            </div>
+
+            <!-- Masonry Gallery -->
+            <div class="masonry-grid">
+                <div class="gallery-item" data-category="seating">
+                    <img src="assests/gallery2.jpg" alt="Outdoor Seating">
+                </div>
+                <div class="gallery-item tall" data-category="dining">
+                    <img src="https://i.pinimg.com/736x/b7/68/64/b768642482aa298be2b5510f4ae3e943.jpg" alt="Outdoor Dining">
+                </div>
+                <div class="gallery-item" data-category="lounge">
+                    <img src="assests/gallery4.jpg" alt="Outdoor Lounge">
+                </div>
+                <div class="gallery-item wide" data-category="fire">
+                    <img src="assests/g1.jpg" alt="Fire Pit">
+                </div>
+                <div class="gallery-item" data-category="seating">
+                    <img src="assests/g2.jpg" alt="Outdoor Seating">
+                </div>
+                <div class="gallery-item tall" data-category="dining">
+                    <img src="https://i.pinimg.com/originals/e0/f3/6a/e0f36ad5b62cf511f90e992cc57eaffa.jpg" alt="Dining Set">
+                </div>
+                <div class="gallery-item" data-category="lounge">
+                    <img src="assests/collection1.jpg" alt="Lounge Area">
+                </div>
+                <div class="gallery-item" data-category="fire">
+                    <img src="assests/collection3.jpg" alt="Fire Feature">
+                </div>
+                <div class="gallery-item" data-category="lounge">
+                    <img src="assests/customization3.jpg" alt="Coastal Lounge Area">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 3: BEFORE & AFTER ========== -->
+    <section class="py-20 lg:py-28 bg-gradient-to-b from-patio-warm/30 to-patio-light dark:from-patio-dark dark:to-gray-900">
+        <div class="max-w-7xl mx-auto px-5">
+            <div class="text-center mb-14">
+                <span class="section-badge bg-gradient-to-r from-patio-secondary/20 to-patio-coral/20 text-patio-secondary">Transformations</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 dark:text-white mt-3">Before &amp; After</h2>
+                <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mt-3 text-sm">See how we transform outdoor spaces</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="rounded-2xl overflow-hidden shadow-xl">
+                    <div class="relative">
+                        <img src="https://everest-solution.com/wp-content/uploads/2025/01/oblozhka-95.png" alt="Before" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 left-4 bg-black/60 text-white px-4 py-1.5 rounded-full text-xs font-bold">BEFORE</div>
+                    </div>
+                    <div class="p-5 bg-white dark:bg-gray-800">
+                        <h4 class="font-bold text-gray-800 dark:text-white">Patio Makeover</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">From empty patio to stylish outdoor living space</p>
+                    </div>
+                </div>
+                <div class="rounded-2xl overflow-hidden shadow-xl">
+                    <div class="relative">
+                        <img src="assests/gallery_after.jpg" alt="After" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 left-4 bg-patio-secondary text-white px-4 py-1.5 rounded-full text-xs font-bold">AFTER</div>
+                    </div>
+                    <div class="p-5 bg-white dark:bg-gray-800">
+                        <h4 class="font-bold text-gray-800 dark:text-white">Stylish Outdoor Oasis</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Complete transformation with PatioHaven furniture</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 4: DESIGN INSPIRATION ========== -->
+    <section class="py-20 lg:py-28 bg-white/50 dark:bg-gray-900/50">
+        <div class="max-w-7xl mx-auto px-5">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="section-badge bg-gradient-to-r from-patio-secondary/20 to-patio-coral/20 text-patio-secondary">Inspiration</span>
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 dark:text-white mt-3 mb-6">Design Inspiration</h2>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
+                        Our gallery showcases the endless possibilities for creating beautiful outdoor spaces. From intimate garden corners to expansive entertaining areas, each design reflects a unique vision.
+                    </p>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                        Whether you prefer modern minimalism, bohemian charm, or classic elegance, our collection offers inspiration for every style. Let these spaces spark your creativity.
+                    </p>
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <span class="bg-patio-secondary/10 text-patio-secondary px-4 py-2 rounded-full text-sm font-semibold">🏡 Modern</span>
+                        <span class="bg-patio-sage/10 text-patio-sage px-4 py-2 rounded-full text-sm font-semibold">🌿 Rustic</span>
+                        <span class="bg-patio-terracotta/10 text-patio-terracotta px-4 py-2 rounded-full text-sm font-semibold">🌸 Bohemian</span>
+                        <span class="bg-patio-coral/10 text-patio-coral px-4 py-2 rounded-full text-sm font-semibold">🏝️ Coastal</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="img-hover-zoom rounded-2xl overflow-hidden shadow-lg">
+                        <img src="assests/home2_hero.jpg" alt="Modern patio" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="img-hover-zoom rounded-2xl overflow-hidden shadow-lg">
+                        <img src="assests/c1.jpg" alt="Rustic garden" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="img-hover-zoom rounded-2xl overflow-hidden shadow-lg">
+                        <img src="assests/index7.jpg" alt="Bohemian style" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="img-hover-zoom rounded-2xl overflow-hidden shadow-lg">
+                        <img src="assests/index8.jpg" alt="Coastal design" class="w-full h-48 object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 5: VIDEO / MEDIA ========== -->
+    <section class="py-20 lg:py-28 bg-gradient-to-b from-patio-warm/30 to-patio-light dark:from-patio-dark dark:to-gray-900">
+        <div class="max-w-7xl mx-auto px-5">
+            <div class="text-center mb-14">
+                <span class="section-badge bg-gradient-to-r from-patio-secondary/20 to-patio-coral/20 text-patio-secondary">Media</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 dark:text-white mt-3">Featured Videos</h2>
+                <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mt-3 text-sm">Watch our outdoor spaces come to life</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-card p-4 rounded-2xl hover:shadow-xl transition flex flex-col h-full">
+                    <div class="rounded-xl overflow-hidden relative">
+                        <img src="assests/gallery_video1.jpg" alt="Video thumbnail" class="w-full h-48 object-cover">
+                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center text-2xl text-patio-secondary hover:scale-110 transition">▶</div>
+                        </div>
+                    </div>
+                    <div class="p-3 flex-grow flex flex-col justify-between">
+                        <h4 class="font-bold text-gray-800 dark:text-white">Seating Collection Tour</h4>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Explore our premium seating range</p>
+                    </div>
+                </div>
+                <div class="glass-card p-4 rounded-2xl hover:shadow-xl transition flex flex-col h-full">
+                    <div class="rounded-xl overflow-hidden relative">
+                        <img src="assests/index6.jpg" alt="Video thumbnail" class="w-full h-48 object-cover">
+                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center text-2xl text-patio-secondary hover:scale-110 transition">▶</div>
+                        </div>
+                    </div>
+                    <div class="p-3 flex-grow flex flex-col justify-between">
+                        <h4 class="font-bold text-gray-800 dark:text-white">Outdoor Dining Ideas</h4>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Inspiration for al fresco dining</p>
+                    </div>
+                </div>
+                <div class="glass-card p-4 rounded-2xl hover:shadow-xl transition flex flex-col h-full md:col-span-2 lg:col-span-1 md:max-w-md md:mx-auto md:w-full">
+                    <div class="rounded-xl overflow-hidden relative">
+                        <img src="assests/gallery_video3.jpg" alt="Video thumbnail" class="w-full h-48 object-cover">
+                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center text-2xl text-patio-secondary hover:scale-110 transition">▶</div>
+                        </div>
+                    </div>
+                    <div class="p-3 flex-grow flex flex-col justify-between">
+                        <h4 class="font-bold text-gray-800 dark:text-white">Fire &amp; Heat Collection</h4>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Cozy outdoor living solutions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 6: CTA ========== -->
+    <section class="py-20 lg:py-28 bg-gradient-to-br from-patio-primary to-patio-primary/90 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10" style="background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.1) 0%, transparent 60%);"></div>
+        <div class="absolute top-0 right-0 w-64 h-64 bg-patio-secondary/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-patio-coral/20 rounded-full blur-3xl"></div>
+        <div class="max-w-4xl mx-auto px-5 text-center relative z-10">
+            <div class="text-6xl mb-6"></div>
+            <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4">Share Your Outdoor Story</h2>
+            <p class="text-white/80 max-w-2xl mx-auto mb-8 text-lg">Tag us in your outdoor photos for a chance to be featured. We love seeing how you style your PatioHaven furniture.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="visit.html" class="btn-shine bg-gradient-to-r from-patio-secondary to-patio-terracotta hover:from-white hover:to-white hover:text-patio-primary text-white px-8 py-4 rounded-full text-sm font-bold transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                    <i class="fas fa-map-marker-alt"></i> Visit Showroom
+                </a>
+                <a href="contact.html" class="bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 text-white px-8 py-4 rounded-full text-sm font-bold transition flex items-center justify-center gap-2 backdrop-blur-sm">
+                    <i class="fas fa-envelope"></i> Contact Us
+                </a>
+            </div>
+            <p class="text-white/40 text-xs mt-4">Follow us on Instagram @PatioHaven</p>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-gray-900 dark:bg-black text-gray-300 border-t border-gray-800/50 pt-16 pb-8">
+        <div class="max-w-[1400px] mx-auto px-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 mb-12">
+                <div class="lg:col-span-5">
+                    <a href="index.html" class="flex items-center gap-2 group mb-4">
+                        <i class="fas fa-tree text-2xl text-patio-secondary group-hover:scale-110 transition-transform"></i>
+                        <span class="text-2xl font-serif font-bold text-patio-secondary">PatioHaven</span>
+                    </a>
+                    <p class="text-gray-400 text-sm max-w-md leading-relaxed">Premium outdoor furniture and patio decor for your garden, balcony, and backyard. Sustainably crafted for lasting beauty.</p>
+                    <div class="flex gap-4 mt-5">
+                        <a href="#" class="w-9 h-9 rounded-full border border-gray-700 flex items-center justify-center hover:border-patio-secondary hover:text-patio-secondary transition"><i class="fab fa-facebook-f text-sm"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-full border border-gray-700 flex items-center justify-center hover:border-patio-secondary hover:text-patio-secondary transition"><i class="fab fa-instagram text-sm"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-full border border-gray-700 flex items-center justify-center hover:border-patio-secondary hover:text-patio-secondary transition"><i class="fab fa-pinterest text-sm"></i></a>
+                    </div>
+                </div>
+                <div class="lg:col-span-3">
+                    <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] mb-5 text-patio-secondary">Shop</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-patio-secondary transition"><i class="fas fa-chevron-right mr-2 text-[8px]"></i>Seating</a></li>
+                        <li><a href="#" class="hover:text-patio-secondary transition"><i class="fas fa-chevron-right mr-2 text-[8px]"></i>Dining</a></li>
+                        <li><a href="#" class="hover:text-patio-secondary transition"><i class="fas fa-chevron-right mr-2 text-[8px]"></i>Lounge</a></li>
+                        <li><a href="#" class="hover:text-patio-secondary transition"><i class="fas fa-chevron-right mr-2 text-[8px]"></i>Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="lg:col-span-4">
+                    <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] mb-5 text-patio-secondary">Contact</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="tel:+18885550123" class="hover:text-patio-secondary transition"><i class="fas fa-phone mr-2"></i>(888) 555-0123</a></li>
+                        <li><a href="mailto:hello@patiohaven.com" class="hover:text-patio-secondary transition"><i class="fas fa-envelope mr-2"></i>hello@patiohaven.com</a></li>
+                        <li><i class="fas fa-clock mr-2"></i>Mon-Sat: 9am - 6pm</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i>Showroom open daily</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800/50 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-[10px] uppercase tracking-widest">© 2026 PatioHaven — Outdoor Living. All rights reserved.</p>
+                <div class="flex gap-6 text-[10px] text-gray-500 uppercase">
+                    <a href="#" class="hover:text-patio-secondary transition">Privacy</a>
+                    <a href="#" class="hover:text-patio-secondary transition">Terms</a>
+                    <a href="#" class="hover:text-patio-secondary transition">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script>
+        (function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+            const html = document.documentElement;
+
+            function updateThemeIcons() {
+                const isDark = html.classList.contains('dark');
+                document.querySelectorAll('#themeToggle i, #mobileThemeToggle i').forEach(icon => {
+                    if (isDark) icon.className = 'fas fa-sun text-patio-secondary text-sm';
+                    else icon.className = 'fas fa-moon text-patio-secondary text-sm';
+                });
+            }
+
+            function toggleTheme() {
+                html.classList.toggle('dark');
+                localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+                updateThemeIcons();
+            }
+
+            if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+            if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme);
+
+            if (localStorage.getItem('theme') === 'dark') html.classList.add('dark');
+            updateThemeIcons();
+
+            const rtlBtn = document.getElementById('rtlToggle');
+            const mobileRtl = document.getElementById('mobileRtlToggle');
+
+            function toggleRTL() {
+                if (html.getAttribute('dir') === 'rtl') html.removeAttribute('dir');
+                else html.setAttribute('dir', 'rtl');
+                localStorage.setItem('direction', html.getAttribute('dir') || 'ltr');
+            }
+
+            if (rtlBtn) rtlBtn.addEventListener('click', toggleRTL);
+            if (mobileRtl) mobileRtl.addEventListener('click', toggleRTL);
+            if (localStorage.getItem('direction') === 'rtl') html.setAttribute('dir', 'rtl');
+
+            const menuBtn = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            function toggleMobileMenu() {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    menuIcon.className = 'fas fa-times text-xl';
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    menuIcon.className = 'fas fa-bars text-xl';
+                }
+            }
+
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', toggleMobileMenu);
+                document.querySelectorAll('#mobile-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        menuIcon.className = 'fas fa-bars text-xl';
+                    });
+                });
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth >= 1280 && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        menuIcon.className = 'fas fa-bars text-xl';
+                    }
+                });
+            }
+
+            const homeBtn = document.getElementById('mobile-home-dropdown-btn');
+            const homeSub = document.getElementById('mobile-home-submenu');
+            const homeIcon = document.getElementById('mobile-home-icon');
+
+            if (homeBtn && homeSub) {
+                homeBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    homeSub.classList.toggle('hidden');
+                    homeIcon.classList.toggle('rotate-180');
+                });
+            }
+
+            // Gallery filter functionality
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const filter = this.dataset.filter;
+                    galleryItems.forEach(item => {
+                        if (filter === 'all' || item.dataset.category === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Video play button click
+            document.querySelectorAll('.glass-card .w-16').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    alert('Video player would open here.');
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>

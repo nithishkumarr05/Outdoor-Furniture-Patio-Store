@@ -1,0 +1,701 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>PatioHaven | Collections — Outdoor Furniture</title>
+    <link rel="icon" href="#" type="image/png">
+    <meta name="description" content="Explore our premium outdoor furniture collections — seating, dining, lounge, and accessories. Quality craftsmanship for every outdoor space.">
+
+       <script src="tailwind.js"></script>
+<link rel="icon" href="assests/fav.png" type="image/jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'patio-primary': '#2F4F3A',
+                        'patio-secondary': '#C49A6C',
+                        'patio-accent': '#D4A373',
+                        'patio-warm': '#F5EDE3',
+                        'patio-dark': '#1a1a1a',
+                        'patio-light': '#FAF7F2',
+                        'patio-coral': '#E8847A',
+                        'patio-sage': '#8BA888',
+                        'patio-terracotta': '#C97B5A',
+                        'patio-mint': '#A8C4B8',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        .floating-particle {
+            position: fixed;
+            font-size: 2.4rem;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes floatY {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-24px); }
+        }
+        .animate-float {
+            animation: floatY 6s ease-in-out infinite;
+        }
+
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn-shine:hover::after {
+            left: 100%;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .dark .glass-card {
+            background: rgba(30, 30, 30, 0.6);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .collection-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.4s ease;
+            min-height: 430px;
+            display: flex;
+            flex-direction: column;
+        }
+        .dark .collection-card {
+            background: rgba(30, 30, 30, 0.8);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        .collection-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #C49A6C;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: #C49A6C;
+        }
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .dark .fa-sun {
+            display: inline-block !important;
+        }
+        .dark .fa-moon {
+            display: none !important;
+        }
+        .fa-moon {
+            display: inline-block;
+        }
+        .fa-sun {
+            display: none;
+        }
+
+        [dir="rtl"] .rtl\:rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.8s ease forwards;
+        }
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .img-hover-zoom {
+            overflow: hidden;
+        }
+        .img-hover-zoom img {
+            transition: transform 0.6s ease;
+        }
+        .img-hover-zoom:hover img {
+            transform: scale(1.05);
+        }
+
+        .hover-border {
+            position: relative;
+            transition: all 0.4s ease;
+        }
+        .hover-border::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #C49A6C;
+            transition: width 0.4s ease;
+        }
+        .hover-border:hover::after {
+            width: 60%;
+        }
+    </style>
+</head>
+
+<body class="bg-patio-light dark:bg-patio-dark text-gray-800 dark:text-gray-100 font-sans antialiased">
+
+    <div class="floating-particle left-[5%] top-[15%] animate-float">🌿</div>
+    <div class="floating-particle right-[8%] top-[25%] animate-float" style="animation-delay: 2s;">🪴</div>
+    <div class="floating-particle left-[10%] bottom-[20%] animate-float" style="animation-delay: 4s;">☀️</div>
+    <div class="floating-particle right-[12%] bottom-[30%] animate-float" style="animation-delay: 3s;">🌴</div>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full top-0 z-50 bg-white/95 dark:bg-patio-dark/95 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-300">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="flex items-center gap-2 group">
+                        <i class="fas fa-tree text-2xl text-patio-secondary group-hover:scale-110 transition-transform"></i>
+                        <span class="text-2xl font-serif font-bold text-patio-secondary">PatioHaven</span>
+                    </a>
+                </div>
+
+                <div class="hidden xl:flex items-center justify-center flex-1 mx-6">
+                    <div class="flex items-center gap-4">
+                        <div class="relative group">
+                            <a href="index.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2 inline-flex items-center gap-1">
+                                Home <i class="fas fa-chevron-down text-[10px]"></i>
+                            </a>
+                            <div class="absolute top-full left-0 mt-2 w-36 bg-white dark:bg-patio-dark border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+                                <a href="index.html" class="block px-4 py-3 text-sm hover:bg-patio-secondary/10 transition-colors">Home 1</a>
+                                <a href="home2.html" class="block px-4 py-3 text-sm hover:bg-patio-secondary/10 transition-colors border-t border-gray-100 dark:border-gray-800">Home 2</a>
+                            </div>
+                        </div>
+                        <a href="about.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">About</a>
+                        <a href="services.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">Services</a>
+                        <a href="collection.html" class="nav-link active text-patio-secondary font-medium text-sm py-2">Collection</a>
+                        <a href="customization.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">Customization</a>
+                        <a href="gallery.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">Gallery</a>
+                        <a href="guide.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">Guide</a>
+                        <a href="visit.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">Visit</a>
+                        <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-200 hover:text-patio-secondary font-medium text-sm py-2">Contact</a>
+                    </div>
+                </div>
+
+                <div class="hidden xl:flex items-center gap-3">
+                    <button id="themeToggle" class="w-9 h-9 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-patio-secondary/10 transition">
+                        <i class="fas fa-moon text-patio-secondary text-sm"></i>
+                    </button>
+                    <button id="rtlToggle" class="w-9 h-9 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-patio-secondary/10 transition">
+                        <i class="fas fa-exchange-alt text-patio-secondary text-sm"></i>
+                    </button>
+                    <a href="login.html" class="flex items-center gap-2 border border-patio-secondary text-patio-secondary hover:bg-patio-secondary hover:text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition shadow-sm hover:shadow-md"><i class="fas fa-user-circle text-sm"></i> Login</a>
+                    <a href="signup.html" class="flex items-center gap-2 bg-patio-secondary hover:bg-patio-primary text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition shadow-md hover:shadow-lg">
+                        <i class="fas fa-user-plus text-sm"></i> Sign Up
+                    </a>
+                </div>
+
+                <div class="xl:hidden flex items-center gap-3">
+                    <button id="mobile-menu-button" class="text-gray-700 dark:text-gray-200 p-2 focus:outline-none">
+                        <i id="menu-icon" class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden xl:hidden bg-white dark:bg-patio-dark backdrop-blur-md border-t border-gray-200/50 dark:border-gray-800/50 absolute w-full shadow-xl z-50 overflow-y-auto" style="top:64px; max-height:calc(100vh - 64px);">
+            <div class="px-5 py-4 pb-6 space-y-1">
+                <div class="w-full">
+                    <button id="mobile-home-dropdown-btn" class="w-full flex justify-between items-center px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">
+                        <span>Home</span> <i id="mobile-home-icon" class="fas fa-chevron-down text-[10px] transition-transform duration-300"></i>
+                    </button>
+                    <div id="mobile-home-submenu" class="hidden pl-6 space-y-1 mt-1">
+                        <a href="index.html" class="block px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm">Home 1</a>
+                        <a href="home2.html" class="block px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm">Home 2</a>
+                    </div>
+                </div>
+                <a href="about.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">About</a>
+                <a href="services.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Services</a>
+                <a href="collection.html" class="block px-4 py-2.5 text-patio-secondary bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Collection</a>
+                <a href="customization.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Customization</a>
+                <a href="gallery.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Gallery</a>
+                <a href="guide.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Guide</a>
+                <a href="visit.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Visit</a>
+                <a href="contact.html" class="block px-4 py-2.5 text-gray-600 dark:text-gray-300 hover:bg-patio-secondary/10 rounded-lg text-sm font-medium transition">Contact</a>
+                <div class="pt-4 mt-3 border-t border-gray-200/50 dark:border-gray-800/50">
+                    <div class="grid grid-cols-2 gap-3 mb-3">
+                        <button id="mobileThemeToggle" class="bg-patio-secondary/10 px-4 py-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-2"><i class="fas fa-moon"></i> Dark/Light</button>
+                        <button id="mobileRtlToggle" class="bg-patio-secondary/10 px-4 py-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-2"><i class="fas fa-exchange-alt"></i> RTL</button>
+                    </div>
+                    <a href="login.html" class="flex items-center justify-center gap-2 bg-patio-primary text-white text-center px-4 py-3 rounded-lg text-sm font-semibold uppercase"><i class="fas fa-user-circle"></i> Login</a>
+                    <a href="signup.html" class="flex items-center justify-center gap-2 mt-2 bg-patio-secondary text-white text-center px-4 py-3 rounded-lg text-sm font-semibold uppercase"><i class="fas fa-user-plus"></i> Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== SECTION 1: HERO (Theory + Image) ========== -->
+    <section class="relative min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden bg-gradient-to-br from-patio-warm/80 via-patio-light to-patio-coral/20 dark:from-patio-dark dark:via-gray-900 dark:to-patio-terracotta/20">
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-patio-coral/20 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-[500px] h-[500px] bg-patio-secondary/20 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+        <div class="absolute top-[35%] right-[10%] w-[400px] h-[400px] bg-patio-terracotta/15 rounded-full blur-3xl opacity-40 pointer-events-none"></div>
+        
+        <div class="relative z-10 w-full max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="animate-fade-up opacity-0" style="animation-delay: 0.1s;">
+                    <div class="inline-flex items-center gap-3 mb-6 bg-white/80 dark:bg-gray-800/80 px-4 py-2 rounded-full shadow-sm border border-patio-secondary/20 backdrop-blur-sm">
+                        <span class="w-2 h-2 rounded-full bg-patio-terracotta pulse-glow"></span>
+                        <span class="text-gray-800 dark:text-gray-200 text-xs uppercase tracking-[0.2em] font-bold bg-gradient-to-r from-patio-terracotta to-patio-secondary bg-clip-text text-transparent">Premium Curated Collections</span>
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-gray-900 dark:text-white leading-[1.1] mb-6">
+                        Discover Our <span class="text-transparent bg-clip-text bg-gradient-to-r from-patio-secondary via-patio-coral to-patio-terracotta">Premium</span> Collections
+                    </h1>
+                    
+                    <p class="text-gray-600 dark:text-gray-300 text-lg mb-8 leading-relaxed">
+                        From elegant seating sets to cozy patio dining setups — each piece is thoughtfully designed to blend comfort, longevity, and natural style into your backyard retreat.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                        <a href="#collections" class="btn-shine bg-gradient-to-r from-patio-secondary to-patio-terracotta hover:from-patio-primary hover:to-patio-secondary text-white px-8 py-4 rounded-full text-sm font-bold transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                            Browse Collections <i class="fas fa-arrow-down"></i>
+                        </a>
+                        <a href="visit.html" class="glass-card text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 px-8 py-4 rounded-full text-sm font-bold transition text-center flex items-center justify-center gap-2 border border-patio-secondary/30">
+                            <i class="fas fa-store text-patio-secondary"></i> Visit Showroom
+                        </a>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4 pt-4 border-t border-gray-200/50 dark:border-gray-800/50">
+                        <div class="flex items-center gap-2 bg-white/50 dark:bg-gray-800/50 px-4 py-2 rounded-full backdrop-blur-sm">
+                            <span class="text-yellow-400 text-lg">★</span>
+                            <span class="text-xs font-semibold text-gray-700 dark:text-gray-300">Premium Quality</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white/50 dark:bg-gray-800/50 px-4 py-2 rounded-full backdrop-blur-sm">
+                            <i class="fas fa-leaf text-patio-sage text-lg"></i>
+                            <span class="text-xs font-semibold text-gray-700 dark:text-gray-300">Sustainably Sourced</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white/50 dark:bg-gray-800/50 px-4 py-2 rounded-full backdrop-blur-sm">
+                            <i class="fas fa-truck text-patio-secondary text-lg"></i>
+                            <span class="text-xs font-semibold text-gray-700 dark:text-gray-300">Free Delivery</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative img-hover-zoom rounded-3xl shadow-2xl">
+                    <img src="assests/collection1.jpg" alt="Premium Patio Collections" class="w-full h-[400px] lg:h-[450px] object-cover rounded-3xl border border-white/20 dark:border-gray-800/50">
+                    <div class="absolute -bottom-4 -right-4 bg-white dark:bg-patio-dark rounded-2xl shadow-xl p-4 flex items-center gap-3 border border-patio-secondary/20">
+                        <i class="fas fa-couch text-patio-terracotta text-xl pulse-glow"></i>
+                        <div>
+                            <div class="text-sm font-bold">New Arrivals</div>
+                            <div class="text-[10px] text-gray-500">2026 Outdoor Line</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 2: COLLECTION CARDS ========== -->
+    <section id="collections" class="py-20 lg:py-28 bg-white/50 dark:bg-gray-900/50">
+        <div class="max-w-7xl mx-auto px-5">
+            <div class="text-center mb-14">
+                <span class="section-badge bg-gradient-to-r from-patio-secondary/20 to-patio-coral/20 text-patio-secondary">Collections</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 dark:text-white mt-3">Shop by Collection</h2>
+                <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mt-3 text-sm">Curated collections designed for every outdoor lifestyle</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="collection-card bg-gradient-to-br from-white to-patio-secondary/5 dark:from-gray-800 dark:to-patio-secondary/5 border border-patio-secondary/20 flex flex-col">
+                    <div class="h-64 overflow-hidden flex-shrink-0">
+                        <img src="assests/collection2.jpg" alt="Seating Collection" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-bold text-xl text-gray-800 dark:text-white">Seating Collection</h3>
+                                <span class="text-xs bg-patio-secondary/20 text-patio-secondary px-3 py-1 rounded-full">12 items</span>
+                            </div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">Elegant sofas, armchairs, and modular seating for ultimate comfort.</p>
+                        </div>
+                        <div>
+                            <a href="#" class="inline-block mt-4 text-patio-secondary font-semibold text-sm hover:underline">Explore →</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="collection-card bg-gradient-to-br from-white to-patio-sage/5 dark:from-gray-800 dark:to-patio-sage/5 border border-patio-sage/20 flex flex-col">
+                    <div class="h-64 overflow-hidden flex-shrink-0">
+                        <img src="assests/collection3.jpg" alt="Dining Collection" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-bold text-xl text-gray-800 dark:text-white">Dining Collection</h3>
+                                <span class="text-xs bg-patio-sage/20 text-patio-sage px-3 py-1 rounded-full">8 items</span>
+                            </div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">Stunning dining tables, chairs, and bar sets for al fresco dining.</p>
+                        </div>
+                        <div>
+                            <a href="#" class="inline-block mt-4 text-patio-secondary font-semibold text-sm hover:underline">Explore →</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="collection-card bg-gradient-to-br from-white to-patio-terracotta/5 dark:from-gray-800 dark:to-patio-terracotta/5 border border-patio-terracotta/20 flex flex-col md:col-span-2 lg:col-span-1 md:max-w-md md:mx-auto md:w-full">
+                    <div class="h-64 overflow-hidden flex-shrink-0">
+                        <img src="assests/collection4.jpg" alt="Lounge Collection" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-bold text-xl text-gray-800 dark:text-white">Lounge Collection</h3>
+                                <span class="text-xs bg-patio-terracotta/20 text-patio-terracotta px-3 py-1 rounded-full">6 items</span>
+                            </div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">Relax in style with daybeds, hammocks, and sun loungers.</p>
+                        </div>
+                        <div>
+                            <a href="#" class="inline-block mt-4 text-patio-secondary font-semibold text-sm hover:underline">Explore →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 3: FEATURED ITEMS (Image Grid) ========== -->
+    <section class="py-20 lg:py-28 bg-gradient-to-b from-patio-warm/30 to-patio-light dark:from-patio-dark dark:to-gray-900">
+        <div class="max-w-7xl mx-auto px-5">
+            <div class="text-center mb-14">
+                <span class="section-badge bg-gradient-to-r from-patio-secondary/20 to-patio-coral/20 text-patio-secondary">Featured Pieces</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 dark:text-white mt-3">Signature Pieces</h2>
+                <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mt-3 text-sm">Our most loved furniture pieces from each collection</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="img-hover-zoom rounded-2xl overflow-hidden shadow-lg flex flex-col h-full">
+                    <img src="assests/collection5.jpg" alt="Haven Sofa" class="w-full h-64 object-cover transition-transform duration-500 hover:scale-105">
+                    <div class="bg-white dark:bg-gray-800 p-4 flex-grow">
+                        <h4 class="font-bold text-gray-800 dark:text-white">Haven Sofa</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">From $1,299</p>
+                    </div>
+                </div>
+                <div class="img-hover-zoom rounded-2xl overflow-hidden shadow-lg flex flex-col h-full">
+                    <img src="assests/collection6.jpg" alt="Vista Dining Table" class="w-full h-64 object-cover transition-transform duration-500 hover:scale-105">
+                    <div class="bg-white dark:bg-gray-800 p-4 flex-grow">
+                        <h4 class="font-bold text-gray-800 dark:text-white">Vista Dining Table</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">From $899</p>
+                    </div>
+                </div>
+                <div class="img-hover-zoom rounded-2xl overflow-hidden shadow-lg flex flex-col h-full">
+                    <img src="assests/collection7.jpg" alt="Breeze Daybed" class="w-full h-64 object-cover transition-transform duration-500 hover:scale-105">
+                    <div class="bg-white dark:bg-gray-800 p-4 flex-grow">
+                        <h4 class="font-bold text-gray-800 dark:text-white">Breeze Daybed</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">From $1,599</p>
+                    </div>
+                </div>
+                <div class="img-hover-zoom rounded-2xl overflow-hidden shadow-lg flex flex-col h-full">
+                    <img src="assests/c1.jpg" alt="Ember Fire Pit" class="w-full h-64 object-cover transition-transform duration-500 hover:scale-105">
+                    <div class="bg-white dark:bg-gray-800 p-4 flex-grow">
+                        <h4 class="font-bold text-gray-800 dark:text-white">Ember Fire Pit</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">From $349</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 4: MATERIALS (Theory) ========== -->
+    <section class="py-20 lg:py-28 bg-white/50 dark:bg-gray-900/50">
+        <div class="max-w-7xl mx-auto px-5">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="section-badge bg-gradient-to-r from-patio-secondary/20 to-patio-coral/20 text-patio-secondary">Materials</span>
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 dark:text-white mt-3 mb-6">Premium Materials, Lasting Quality</h2>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
+                        Our collections are crafted using only the finest materials — sustainably sourced teak, weather-resistant rattan, and powder-coated aluminum that withstands the elements.
+                    </p>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                        Each piece is designed to age beautifully, developing a natural patina that adds character to your outdoor space while maintaining its structural integrity for years.
+                    </p>
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <span class="bg-patio-secondary/10 text-patio-secondary px-4 py-2 rounded-full text-sm font-semibold">🌳 FSC-Certified Wood</span>
+                        <span class="bg-patio-sage/10 text-patio-sage px-4 py-2 rounded-full text-sm font-semibold">☀️ UV-Resistant</span>
+                        <span class="bg-patio-terracotta/10 text-patio-terracotta px-4 py-2 rounded-full text-sm font-semibold">💧 Weatherproof</span>
+                    </div>
+                </div>
+                <div class="img-hover-zoom rounded-3xl shadow-2xl">
+                    <img src="assests/collection9.jpg" alt="Premium Materials" class="w-full h-[400px] object-cover rounded-3xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 5: MATERIAL OPTIONS (Cards) ========== -->
+    <section class="py-20 lg:py-28 bg-gradient-to-b from-patio-warm/30 to-patio-light dark:from-patio-dark dark:to-gray-900">
+        <div class="max-w-7xl mx-auto px-5">
+            <div class="text-center mb-14">
+                <span class="section-badge bg-gradient-to-r from-patio-secondary/20 to-patio-coral/20 text-patio-secondary">Material Options</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 dark:text-white mt-3">Choose Your Finish</h2>
+                <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mt-3 text-sm">Every collection offers multiple material and finish options</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-6 rounded-2xl text-center border-t-4 border-patio-secondary flex flex-col justify-between h-full">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-patio-secondary/10 dark:bg-patio-secondary/20 flex items-center justify-center text-patio-secondary text-xl mx-auto mb-4">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 dark:text-white mb-2">Teak Wood</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Durable, weather-resistant, sustainable</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl text-center border-t-4 border-patio-sage flex flex-col justify-between h-full">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-patio-sage/10 dark:bg-patio-sage/20 flex items-center justify-center text-patio-sage text-xl mx-auto mb-4">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 dark:text-white mb-2">Rattan</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Lightweight, elegant, handcrafted</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl text-center border-t-4 border-patio-terracotta flex flex-col justify-between h-full">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-patio-terracotta/10 dark:bg-patio-terracotta/20 flex items-center justify-center text-patio-terracotta text-xl mx-auto mb-4">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 dark:text-white mb-2">Aluminum</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Powder-coated, rust-proof, lightweight</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl text-center border-t-4 border-patio-coral flex flex-col justify-between h-full">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-patio-coral/10 dark:bg-patio-coral/20 flex items-center justify-center text-patio-coral text-xl mx-auto mb-4">
+                            <i class="fas fa-scroll"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 dark:text-white mb-2">Textilene</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">UV-resistant, breathable, easy-care</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 6: CTA ========== -->
+    <section class="py-20 lg:py-28 bg-gradient-to-br from-patio-primary to-patio-primary/90 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10" style="background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.1) 0%, transparent 60%);"></div>
+        <div class="max-w-4xl mx-auto px-5 text-center relative z-10">
+            <div class="text-6xl mb-6"></div>
+            <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4">Find Your Perfect Collection</h2>
+            <p class="text-white/80 max-w-2xl mx-auto mb-8 text-lg">Visit our showroom to experience the quality firsthand or browse our collections online.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="visit.html" class="btn-shine bg-gradient-to-r from-patio-secondary to-patio-terracotta hover:from-white hover:to-white hover:text-patio-primary text-white px-8 py-4 rounded-full text-sm font-bold transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                    <i class="fas fa-map-marker-alt"></i> Visit Showroom
+                </a>
+                <a href="contact.html" class="bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 text-white px-8 py-4 rounded-full text-sm font-bold transition flex items-center justify-center gap-2 backdrop-blur-sm">
+                    <i class="fas fa-envelope"></i> Contact Us
+                </a>
+            </div>
+            <p class="text-white/40 text-xs mt-4">Free consultations • Expert guidance • Quality guaranteed</p>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-gray-900 dark:bg-black text-gray-300 border-t border-gray-800/50 pt-16 pb-8">
+        <div class="max-w-[1400px] mx-auto px-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 mb-12">
+                <div class="lg:col-span-5">
+                    <a href="index.html" class="flex items-center gap-2 group mb-4">
+                        <i class="fas fa-tree text-2xl text-patio-secondary group-hover:scale-110 transition-transform"></i>
+                        <span class="text-2xl font-serif font-bold text-patio-secondary">PatioHaven</span>
+                    </a>
+                    <p class="text-gray-400 text-sm max-w-md leading-relaxed">Premium outdoor furniture and patio decor for your garden, balcony, and backyard. Sustainably crafted for lasting beauty.</p>
+                    <div class="flex gap-4 mt-5">
+                        <a href="#" class="w-9 h-9 rounded-full border border-gray-700 flex items-center justify-center hover:border-patio-secondary hover:text-patio-secondary transition"><i class="fab fa-facebook-f text-sm"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-full border border-gray-700 flex items-center justify-center hover:border-patio-secondary hover:text-patio-secondary transition"><i class="fab fa-instagram text-sm"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-full border border-gray-700 flex items-center justify-center hover:border-patio-secondary hover:text-patio-secondary transition"><i class="fab fa-pinterest text-sm"></i></a>
+                    </div>
+                </div>
+                <div class="lg:col-span-3">
+                    <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] mb-5 text-patio-secondary">Collections</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-patio-secondary transition"><i class="fas fa-chevron-right mr-2 text-[8px]"></i>Seating</a></li>
+                        <li><a href="#" class="hover:text-patio-secondary transition"><i class="fas fa-chevron-right mr-2 text-[8px]"></i>Dining</a></li>
+                        <li><a href="#" class="hover:text-patio-secondary transition"><i class="fas fa-chevron-right mr-2 text-[8px]"></i>Lounge</a></li>
+                        <li><a href="#" class="hover:text-patio-secondary transition"><i class="fas fa-chevron-right mr-2 text-[8px]"></i>Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="lg:col-span-4">
+                    <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] mb-5 text-patio-secondary">Contact</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="tel:+18885550123" class="hover:text-patio-secondary transition"><i class="fas fa-phone mr-2"></i>(888) 555-0123</a></li>
+                        <li><a href="mailto:hello@patiohaven.com" class="hover:text-patio-secondary transition"><i class="fas fa-envelope mr-2"></i>hello@patiohaven.com</a></li>
+                        <li><i class="fas fa-clock mr-2"></i>Mon-Sat: 9am - 6pm</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i>Showroom open daily</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800/50 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-[10px] uppercase tracking-widest">© 2026 PatioHaven — Outdoor Living. All rights reserved.</p>
+                <div class="flex gap-6 text-[10px] text-gray-500 uppercase">
+                    <a href="#" class="hover:text-patio-secondary transition">Privacy</a>
+                    <a href="#" class="hover:text-patio-secondary transition">Terms</a>
+                    <a href="#" class="hover:text-patio-secondary transition">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script>
+        (function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+            const html = document.documentElement;
+
+            function updateThemeIcons() {
+                const isDark = html.classList.contains('dark');
+                document.querySelectorAll('#themeToggle i, #mobileThemeToggle i').forEach(icon => {
+                    if (isDark) icon.className = 'fas fa-sun text-patio-secondary text-sm';
+                    else icon.className = 'fas fa-moon text-patio-secondary text-sm';
+                });
+            }
+
+            function toggleTheme() {
+                html.classList.toggle('dark');
+                localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+                updateThemeIcons();
+            }
+
+            if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+            if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme);
+
+            if (localStorage.getItem('theme') === 'dark') html.classList.add('dark');
+            updateThemeIcons();
+
+            const rtlBtn = document.getElementById('rtlToggle');
+            const mobileRtl = document.getElementById('mobileRtlToggle');
+
+            function toggleRTL() {
+                if (html.getAttribute('dir') === 'rtl') html.removeAttribute('dir');
+                else html.setAttribute('dir', 'rtl');
+                localStorage.setItem('direction', html.getAttribute('dir') || 'ltr');
+            }
+
+            if (rtlBtn) rtlBtn.addEventListener('click', toggleRTL);
+            if (mobileRtl) mobileRtl.addEventListener('click', toggleRTL);
+            if (localStorage.getItem('direction') === 'rtl') html.setAttribute('dir', 'rtl');
+
+            const menuBtn = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            function toggleMobileMenu() {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    menuIcon.className = 'fas fa-times text-xl';
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    menuIcon.className = 'fas fa-bars text-xl';
+                }
+            }
+
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', toggleMobileMenu);
+                document.querySelectorAll('#mobile-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        menuIcon.className = 'fas fa-bars text-xl';
+                    });
+                });
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth >= 1280 && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        menuIcon.className = 'fas fa-bars text-xl';
+                    }
+                });
+            }
+
+            const homeBtn = document.getElementById('mobile-home-dropdown-btn');
+            const homeSub = document.getElementById('mobile-home-submenu');
+            const homeIcon = document.getElementById('mobile-home-icon');
+
+            if (homeBtn && homeSub) {
+                homeBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    homeSub.classList.toggle('hidden');
+                    homeIcon.classList.toggle('rotate-180');
+                });
+            }
+        })();
+    </script>
+</body>
+
+</html>
